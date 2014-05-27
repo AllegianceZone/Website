@@ -49,50 +49,6 @@
 	color:black;
 	text-decoration:none;
 	}
-
-
-
-	#main{
-	height:525px;
-	width:100%;
-	margin-left:auto;
-	margin-right:auto;
-        font-family: Trebuchet MS;
-			box-shadow:5px 5px 20px #888;
-		-moz-box-shadow:5px 5px 20px #888;
-		-webkit-box-shadow:5px 5px 20px #888;
-				border-radius:15px;
-		background:black;
-	}
-
-	#main a:link{
-	color:black;
-	text-decoration:none;
-	font-size:1em;
-	letter-spacing:2px;
-	
-	}
-
-	#main a:visited{
-	color:black;
-	text-decoration:none;
-	font-size:1em;
-	letter-spacing:2px;
-	}
-
-	#main a:hover{
-	text-decoration:none;
-	font-size:1em;
-	letter-spacing:2px;
-	color:red;
-	}
-
-	#main a:active{
-	color:black;
-	text-decoration:none;
-	font-size:1em;
-	letter-spacing:2px;
-	}
 	
 	#nav ul{
 	background:gray;
