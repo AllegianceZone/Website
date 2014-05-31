@@ -14,8 +14,19 @@ az.config(['$routeProvider',
         }).
         when('/Rosters', {
             templateUrl: 'templates/rosters.html',
-            controller: 'ShowRostersController'
+            controller: 'ShowRostersController'			
         }).
+		
+		when('/Training', {
+            templateUrl: 'templates/training.html',
+            controller: 'ShowHomeController'
+        }).
+		
+		when('/Info', {
+            templateUrl: 'templates/info.html',
+            controller: 'ShowHomeController'
+        }).
+		
         otherwise({
             redirectTo: '/Home'
         });
