@@ -27,6 +27,11 @@ az.config(['$routeProvider',
             controller: 'ShowHomeController'
         }).
 		
+		when('/Video', {
+            templateUrl: 'templates/video.html',
+            controller: 'ShowHomeController'
+        }).
+		
         otherwise({
             redirectTo: '/Home'
         });
