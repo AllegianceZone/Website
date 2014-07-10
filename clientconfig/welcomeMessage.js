@@ -8,11 +8,11 @@ darkgray = Color(0.2,0.2,0.2);
 outline = Color(0.6,0.0,0.0);
 // BEGIN PROGRAM GENERATED SECTION 
 logo = ImportImage("nebplnt07bmp", true); 
-txtBanner = "Allegiance Zone!\n\n"; 
+txtBanner = "AllegianceZone.com\n\n"; 
 txtUpdated = "Last Updated: 7/9/2014\n\n"; 
 txtPrimaryHdg = "Lobby is Open\n\n"; 
 txtPrimaryTxt = "\n"; 
-txtSecondaryHdg = "For more informations visit our community forum at:\n\n"; 
+txtSecondaryHdg = "Visit us at:\n\n"; 
 txtSecondaryTxt = "AllegianceZone.com\n"; 
 txtDetails = ""; 
 txtPadding = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
