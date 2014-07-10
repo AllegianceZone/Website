@@ -10,10 +10,10 @@ outline = Color(0.6,0.0,0.0);
 logo = ImportImage("nebplnt07bmp", true); 
 txtBanner = "Allegiance Zone!\n\n"; 
 txtUpdated = "Last Updated: 7/9/2014\n\n"; 
-txtPrimaryHdg = "Open lobby is active.\n\n"; 
+txtPrimaryHdg = "Lobby is Open\n\n"; 
 txtPrimaryTxt = "\n"; 
 txtSecondaryHdg = "For more informations visit our community forum at:\n\n"; 
-txtSecondaryTxt = "http://forum.allegiancezone.com/\n"; 
+txtSecondaryTxt = "AllegianceZone.com\n"; 
 txtDetails = ""; 
 txtPadding = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
 // END PROGRAM GENERATED SECTION 
