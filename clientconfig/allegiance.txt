@@ -1,6 +1,6 @@
 [Allegiance]
 PublicLobby=allegiancezone.cloudapp.net
-PublicMessageURL=http://allsrvbox.alleg.net/Content/Motd/MotdTemplate.aspx?lobbyID=1
+PublicMessageURL=http://allegiancezone.com/clientconfig/welcomeMessage.js
 LobbyClientPort=2302
 LobbyServerPort=2303
 
