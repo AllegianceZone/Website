@@ -38,10 +38,14 @@ az.config(['$routeProvider',
   }]);
 
 
-az.controller('ShowHomeController', function ($scope) {
+az.controller('ShowHomeController', function ($scope, $http) {
 
     $scope.message = 'This is Home screen';
-
+    $http.get('/gameinfod.ashx')
+        .then(function(res){
+            $scope.lobbyInfo = res.data;
+        })
+    
 });
 
 
