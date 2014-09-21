@@ -8,8 +8,7 @@ public class Handler : IHttpHandler {
     public void ProcessRequest (HttpContext context) {
         var uri = "ftp://allegiancezone.cloudapp.net:21122/gameinfod.json";
         //var wr = FtpWebRequest.Create();
-        WebClient request = new WebClient();
-        // This example assumes the FTP site uses anonymous logon.
+        WebClient request = new WebClient();// This example assumes the FTP site uses anonymous logon.
         request.Credentials = new NetworkCredential("anonymous", "site@allegiancezone.com");
         try
         {
