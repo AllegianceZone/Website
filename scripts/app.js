@@ -50,7 +50,7 @@ az.controller('ShowHomeController', function ($scope, $http) {
             var missions = [];
 
             for (var mission in res.data) {
-                missions.push(foo);
+                missions.push(mission);
             }
 
             $scope.missions = missions;
