@@ -12,15 +12,18 @@ using System.Web;
 
 public class Handler : IHttpHandler
 {
-
-    static Dictionary<UInt32, FMD_LS_LobbyMissionInfo> _badcache = new Dictionary<UInt32, FMD_LS_LobbyMissionInfo>();
     static Exception _lastExcpetion = null;
     public void ProcessRequest(HttpContext context)
     {
+        var latest = context.Cache.Get("lobbyinfo") as Dictionary<UInt32, FMD_LS_LobbyMissionInfo>;
+        if (latest == null)
+            latest = new Dictionary<uint, FMD_LS_LobbyMissionInfo>();
+        
         if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase))
         {
             try
             {
+                _lastExcpetion = null;
                 using (var binaryReader = new System.IO.BinaryReader(context.Request.InputStream))
                 {
                     var bytes = binaryReader.ReadBytes(Convert.ToInt32(context.Request.InputStream.Length));
@@ -33,12 +36,15 @@ public class Handler : IHttpHandler
                         Buffer.BlockCopy(bytes, offset, oneSet, 0, len);
                         offset += len;
                         var n = new FMD_LS_LobbyMissionInfo(bytes);
-                        _badcache[n.dwCookie] = n;
-                        var pretty = Newtonsoft.Json.JsonConvert.SerializeObject(n, Newtonsoft.Json.Formatting.Indented);
-                        Console.WriteLine(pretty);
+                        latest[n.dwCookie] = n;
                         avail -= len;
                     } while (avail > 0);
                 }
+                // cache it:
+                context.Cache.Add("lobbyinfo", latest, null
+                    , DateTime.UtcNow.AddMinutes(20), System.Web.Caching.Cache.NoSlidingExpiration
+                    , System.Web.Caching.CacheItemPriority.Normal
+                    , null);
             }
             catch (Exception e)
             {
@@ -52,13 +58,14 @@ public class Handler : IHttpHandler
             string json = "";
             if (_lastExcpetion == null)
             {
-                json = JsonConvert.SerializeObject(_badcache, Formatting.Indented);
+                json = JsonConvert.SerializeObject(latest, Formatting.Indented);
             }
             else
             {
                 json = JsonConvert.SerializeObject(_lastExcpetion, Formatting.Indented);
             }
             var bytes = System.Text.Encoding.ASCII.GetBytes(json);
+            context.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(15));
             context.Response.BinaryWrite(bytes);
         }
     }
