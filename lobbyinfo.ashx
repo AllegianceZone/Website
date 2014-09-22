@@ -121,10 +121,12 @@ public class FMD_LS_LobbyMissionInfo
     public Int16 nMinRank { get { return BitConverter.ToInt16(Bytes, 46); } }
     public Int16 nMaxRank { get { return BitConverter.ToInt16(Bytes, 48); } }
 
-
-
-
-
+    public int nNumPlayers { get { return readInternalInt(0, 11); } } // uint nNumPlayers        : 11;
+    public int nNumNoatPlayers { get { return readInternalInt(11, 11); } }// uint nNumNoatPlayers    : 11; 
+    public int nMaxPlayersPerGame { get { return readInternalInt(22, 11); } }// uint nMaxPlayersPerGame : 11;
+    public int nMinPlayersPerTeam { get { return readInternalInt(33, 8); } }// uint nMinPlayersPerTeam : 8;
+    public int nMaxPlayersPerTeam { get { return readInternalInt(41, 8); } }// uint nMaxPlayersPerTeam : 8;
+    public int nTeams { get { return readInternalInt(49, 3); } }// uint nTeams             : 3
 
     public bool fCountDownStarted { get { return readInternalBool(0); } } // bool fCountdownStarted: 1;
     public bool fInProgress { get { return readInternalBool(1); } } // bool fInProgress: 1;
@@ -162,5 +164,50 @@ public class FMD_LS_LobbyMissionInfo
         var rem = bit % 8;
         var flag = (_myByte & (1 << rem)) != 0;
         return flag;
+    }
+    private int readInternalInt(int bitOffset, byte bitWidth)
+    {
+        // start at byte 50
+        bitOffset += (50 * 8);
+        var byteStart = bitOffset / 8;
+        var alignmentOffset = (byte)(bitOffset % 8);
+        var byteWidth = bitWidth / 8;
+        if (bitWidth % 8 != 0)
+            byteWidth++;
+        if (byteWidth == 1)
+        {
+            // fix alignment
+            var b = Bytes[byteStart];
+            b = (byte)(b >> alignmentOffset);
+            // mask out the bits we want
+            var cleanLeft = 8 - bitWidth;
+            b = (byte)(b << cleanLeft);
+            // now put it back
+            b = (byte)(b >> cleanLeft);
+            return b;
+        }
+        if (byteWidth == 2)
+        {
+            // fix alignment
+            var b = BitConverter.ToUInt16(Bytes, byteStart);
+            b = (ushort)(b >> alignmentOffset);
+            // mask out the bits we want
+            var cleanLeft = 16 - bitWidth;
+            b = (ushort)(b << cleanLeft);
+            // now put it back
+            b = (ushort)(b >> cleanLeft);
+            return b;
+        }
+        {
+            // handle a 3byte as a 4 byte
+            var b = BitConverter.ToUInt32(Bytes, byteStart);
+            b = b >> alignmentOffset;
+            // mask out the bits we want
+            var cleanLeft = 32 - bitWidth;
+            b = b << cleanLeft;
+            // now put it back
+            b = b >> cleanLeft;
+            return Convert.ToInt32(b);
+        }
     }
 }
