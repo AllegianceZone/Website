@@ -24,6 +24,7 @@ public class Handler : IHttpHandler
             try
             {
                 _lastExcpetion = null;
+                latest.Clear(); // we expect every mission to be reposted each time.
                 using (var binaryReader = new System.IO.BinaryReader(context.Request.InputStream))
                 {
                     var bytes = binaryReader.ReadBytes(Convert.ToInt32(context.Request.InputStream.Length));
