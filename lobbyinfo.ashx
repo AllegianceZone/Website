@@ -42,11 +42,11 @@ public class Handler : IHttpHandler
                         avail -= len;
                     } while (avail > 0);
                 }
-                // cache it:
-                context.Cache.Add("lobbyinfo", latest, null
-                    , DateTime.UtcNow.AddMinutes(20), System.Web.Caching.Cache.NoSlidingExpiration
-                    , System.Web.Caching.CacheItemPriority.Normal
-                    , null);
+                // cache it: NOT WORKING -> TODO: Redis
+                //context.Cache.Add("lobbyinfo", latest, null
+                //    , DateTime.UtcNow.AddMinutes(20), System.Web.Caching.Cache.NoSlidingExpiration
+                //    , System.Web.Caching.CacheItemPriority.Normal
+                //    , null);
             }
             catch (Exception e)
             {
