@@ -13,11 +13,12 @@ using System.Web;
 public class Handler : IHttpHandler
 {
     static Exception _lastExcpetion = null;
+    static Dictionary<UInt32, FMD_LS_LobbyMissionInfo> latest = new Dictionary<uint, FMD_LS_LobbyMissionInfo>();
     public void ProcessRequest(HttpContext context)
     {
-        var latest = context.Cache.Get("lobbyinfo") as Dictionary<UInt32, FMD_LS_LobbyMissionInfo>;
-        if (latest == null)
-            latest = new Dictionary<uint, FMD_LS_LobbyMissionInfo>();
+        //var latest = context.Cache.Get("lobbyinfo") as Dictionary<UInt32, FMD_LS_LobbyMissionInfo>;
+        //if (latest == null)
+        //    latest = new Dictionary<uint, FMD_LS_LobbyMissionInfo>();
         
         if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase))
         {
