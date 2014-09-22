@@ -45,7 +45,17 @@ az.controller('ShowHomeController', function ($scope, $http) {
         .then(function(res){
             $scope.lobbyInfo = res.data;
         })
-    
+    $http.get('/lobbyinfo.ashx')
+        .then(function (res) {
+            var missions = [];
+
+            for (var mission in res.data) {
+                missions.push(foo);
+            }
+
+            $scope.missions = missions;
+        })
+
 });
 
 
