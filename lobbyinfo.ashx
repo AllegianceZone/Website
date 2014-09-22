@@ -33,7 +33,7 @@ public class Handler : IHttpHandler
                         Buffer.BlockCopy(bytes, offset, oneSet, 0, len);
                         offset += len;
                         var n = new FMD_LS_LobbyMissionInfo(bytes);
-                        //_badcache[n.dwCookie] = n;
+                        _badcache[n.dwCookie] = n;
                         var pretty = Newtonsoft.Json.JsonConvert.SerializeObject(n, Newtonsoft.Json.Formatting.Indented);
                         Console.WriteLine(pretty);
                         avail -= len;
