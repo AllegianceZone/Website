@@ -167,8 +167,8 @@ public class FMD_LS_LobbyMissionInfo
     }
     private int readInternalInt(int bitOffset, byte bitWidth)
     {
-        // start at byte 50
-        bitOffset += (50 * 8);
+        // start at byte 52
+        bitOffset += (52 * 8);
         var byteStart = bitOffset / 8;
         var alignmentOffset = (byte)(bitOffset % 8);
         var byteWidth = bitWidth / 8;
@@ -178,11 +178,9 @@ public class FMD_LS_LobbyMissionInfo
         {
             // fix alignment
             var b = Bytes[byteStart];
-            b = (byte)(b >> alignmentOffset);
+            b = (byte)(b << alignmentOffset);
             // mask out the bits we want
             var cleanLeft = 8 - bitWidth;
-            b = (byte)(b << cleanLeft);
-            // now put it back
             b = (byte)(b >> cleanLeft);
             return b;
         }
@@ -190,24 +188,12 @@ public class FMD_LS_LobbyMissionInfo
         {
             // fix alignment
             var b = BitConverter.ToUInt16(Bytes, byteStart);
-            b = (ushort)(b >> alignmentOffset);
+            b = (ushort)(b << alignmentOffset);
             // mask out the bits we want
             var cleanLeft = 16 - bitWidth;
-            b = (ushort)(b << cleanLeft);
-            // now put it back
             b = (ushort)(b >> cleanLeft);
             return b;
         }
-        {
-            // handle a 3byte as a 4 byte
-            var b = BitConverter.ToUInt32(Bytes, byteStart);
-            b = b >> alignmentOffset;
-            // mask out the bits we want
-            var cleanLeft = 32 - bitWidth;
-            b = b << cleanLeft;
-            // now put it back
-            b = b >> cleanLeft;
-            return Convert.ToInt32(b);
-        }
+        return 0;
     }
 }
