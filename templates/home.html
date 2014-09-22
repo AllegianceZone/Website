@@ -5,19 +5,21 @@
     Players in Allegiance: {{lobbyInfo.numPlayers}}
 </div>
 
-<table>
+<table class="rwd-table">
     <thead>
         <tr>
             <td>Mission</td>
             <td>Core</td>
             <td>Cookie</td>
             <td>Version</td>
+            <td>Server</td>
         </tr>
     </thead>
     <tr ng-repeat="mission in missions">
         <td>{{mission.GameName}}</td>
         <td>{{mission.IGCStaticFile}}</td>
         <td>{{mission.dwCookie}}</td>
-        <td>{{mission.ServerVersion}}</td>   
+        <td>{{mission.ServerVersion}}</td>
+        <td>{{mission.ServerName}}</td>
     </tr>
 </table>
