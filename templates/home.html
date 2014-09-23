@@ -2,28 +2,32 @@
 
 {{ message }}-->
 <div ng-model="lobbyInfo">
-    Players in Allegiance: {{lobbyInfo.numPlayers}}
+    Players in Allegiance: {{playerCount()}}
 </div>
 
 <table class="rwd-table">
     <thead>
         <tr>
+            <td>InGame</td>
             <td>Mission</td>
             <td>Core</td>
             <td>Cookie</td>
             <td>Version</td>
             <td>Server</td>
             <td>Players</td>
+            <td>NOAT</td>
             <td>Teams</td>
         </tr>
     </thead>
-    <tr ng-repeat="mission in missions">
-        <td>{{mission.szGameName}}</td>
-        <td>{{mission.szIGCStaticFile}}</td>
-        <td>{{mission.dwCookie}}</td>
-        <td>{{mission.szServerVersion}}</td>
-        <td>{{mission.szServerName}}</td>
-        <td>{{mission.nNumPlayers}}</td>
-        <td>{{mission.nTeams}}</td>
+    <tr ng-repeat="m in missions">
+        <td>{{m.fInProgress}}</td>
+        <td>{{m.GameName}}</td>
+        <td>{{m.IGCStaticFile}}</td>
+        <td>{{m.dwCookie}}</td>
+        <td>{{m.ServerVersion}}</td>
+        <td>{{m.ServerName}}</td>
+        <td>{{m.nNumPlayers}}</td>
+        <td>{{m.nNumNoatPlayers}}</td>
+        <td>{{m.nTeams}}</td>
     </tr>
 </table>
