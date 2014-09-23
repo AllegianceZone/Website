@@ -13,13 +13,17 @@
             <td>Cookie</td>
             <td>Version</td>
             <td>Server</td>
+            <td>Players</td>
+            <td>Teams</td>
         </tr>
     </thead>
     <tr ng-repeat="mission in missions">
-        <td>{{mission.GameName}}</td>
-        <td>{{mission.IGCStaticFile}}</td>
+        <td>{{mission.szGameName}}</td>
+        <td>{{mission.szIGCStaticFile}}</td>
         <td>{{mission.dwCookie}}</td>
-        <td>{{mission.ServerVersion}}</td>
-        <td>{{mission.ServerName}}</td>
+        <td>{{mission.szServerVersion}}</td>
+        <td>{{mission.szServerName}}</td>
+        <td>{{mission.nNumPlayers}}</td>
+        <td>{{mission.nTeams}}</td>
     </tr>
 </table>
