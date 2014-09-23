@@ -41,18 +41,21 @@ az.config(['$routeProvider',
 az.controller('ShowHomeController', function ($scope, $http) {
 
     $scope.message = 'This is Home screen';
-    $http.get('/lobbyinfo.ashx')
-        .then(function (res) {            
-            $scope.missions = res.data;
-            $scope.playerCount = function () {
-                var sum=0;
-                for (var m in missions) {
-                    sum += m.nNumPlayers;
+    var refreshLobbyInfo = function () {
+        $http.get('/lobbyinfo.ashx')
+            .then(function (res) {
+                $scope.missions = res.data;
+                $scope.playerCount = function () {
+                    var sum = 0;
+                    for (var m in missions) {
+                        sum += m.nNumPlayers;
+                    }
+                    return sum;
                 }
-                return sum;
-            }
-        })
-
+            });
+    };
+    refreshLobbyInfo();
+    setInterval(refreshLobbyInfo, 16000);
 });
 
 
