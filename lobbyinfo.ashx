@@ -14,28 +14,31 @@ public class Handler : IHttpHandler
 {
     static Exception _lastExcpetion = null;
     static string latest = "[]";
+    static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
     static DateTime lastUpdate = DateTime.MinValue;
     public void ProcessRequest(HttpContext context)
     {
-        //var latest = context.Cache.Get("lobbyinfo") as Dictionary<UInt32, FMD_LS_LobbyMissionInfo>;
-        //if (latest == null)
-        //    latest = new Dictionary<uint, FMD_LS_LobbyMissionInfo>();
-        
         if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase))
         {
             try
             {
                 _lastExcpetion = null;
-                using (var tr = new StreamReader(context.Request.InputStream))
+                _latest.Clear();
+                using (var binaryReader = new System.IO.BinaryReader(context.Request.InputStream))
                 {
-                    latest = tr.ReadToEnd();
-                    lastUpdate = DateTime.UtcNow;
+                    var bytes = binaryReader.ReadBytes(Convert.ToInt32(context.Request.InputStream.Length));
+                    var avail = bytes.Length;
+                    var offset = 0;
+                    do
+                    {
+                        var len = BitConverter.ToUInt16(bytes, offset);
+                        var oneSet = new byte[len];
+                        Buffer.BlockCopy(bytes, offset, oneSet, 0, len);
+                        offset += len;
+                        _latest.Add(AzUnpack.FromLobbyInfo.Convert(bytes));
+                        avail -= len;
+                    } while (avail > 0);
                 }
-                // cache it: NOT WORKING -> TODO: Redis
-                //context.Cache.Add("lobbyinfo", latest, null
-                //    , DateTime.UtcNow.AddMinutes(20), System.Web.Caching.Cache.NoSlidingExpiration
-                //    , System.Web.Caching.CacheItemPriority.Normal
-                //    , null);
             }
             catch (Exception e)
             {
@@ -49,13 +52,7 @@ public class Handler : IHttpHandler
             string json = "";
             if (_lastExcpetion == null)
             {
-                if (DateTime.UtcNow - lastUpdate > TimeSpan.FromSeconds(10))
-                {
-                    var wc = (new System.Net.WebClient()).DownloadString("http://azforum.cloudapp.net/lobbyinfo.json");
-                    latest = wc;
-                    lastUpdate = DateTime.UtcNow;
-                }                
-                json = latest;
+                json = Newtonsoft.Json.JsonConvert.SerializeObject(_latest.ToArray(), Newtonsoft.Json.Formatting.Indented);
             }
             else
             {
