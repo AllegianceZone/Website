@@ -52,7 +52,7 @@ az.controller('ShowHomeController', function ($scope, $http) {
                     var sum = 0;
                     if ($scope.missions.length > 0) {
                         for (var m in $scope.missions) {
-                            sum += m.nNumPlayers;
+                            sum += $scope.missions[m].nNumPlayers;
                         }
                     }
                     return sum;
