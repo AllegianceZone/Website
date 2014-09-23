@@ -33,7 +33,7 @@ public class Handler : IHttpHandler
                         var oneSet = new byte[len];
                         Buffer.BlockCopy(bytes, offset, oneSet, 0, len);
                         offset += len;
-                        _latest.Add(AzUnpack.FromLobbyInfo.Convert(bytes));
+                        _latest.Add(AzUnpack.FromLobbyInfo.Convert(oneSet));
                         avail -= len;
                     } while (avail > 0);
                 }
