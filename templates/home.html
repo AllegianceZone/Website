@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tr ng-repeat="m in missions">
-        <td><div class="button">launch</div></td>
+        <td><div class="button"><a href="azgame://join/{{m.dwCookie}}">launch</a></div></td>
         <td>{{m.fInProgress}}</td>
         <td>{{m.GameName}}</td>
         <td>{{m.IGCStaticFile}}</td>
