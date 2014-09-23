@@ -40,6 +40,9 @@ az.config(['$routeProvider',
 
 az.controller('ShowHomeController', function ($scope, $http) {
 
+    $scope.missions = [];
+
+
     $scope.message = 'This is Home screen';
     var refreshLobbyInfo = function () {
         $http.get('/lobbyinfo.ashx')
@@ -47,8 +50,10 @@ az.controller('ShowHomeController', function ($scope, $http) {
                 $scope.missions = res.data;
                 $scope.playerCount = function () {
                     var sum = 0;
-                    for (var m in missions) {
-                        sum += m.nNumPlayers;
+                    if ($scope.missions.length > 0) {
+                        for (var m in $scope.missions) {
+                            sum += m.nNumPlayers;
+                        }
                     }
                     return sum;
                 }
