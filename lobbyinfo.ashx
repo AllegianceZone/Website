@@ -13,9 +13,7 @@ using Newtonsoft.Json.Linq;
 public class Handler : IHttpHandler
 {
     static Exception _lastExcpetion = null;
-    static string latest = "[]";
     static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
-    static DateTime lastUpdate = DateTime.MinValue;
     public void ProcessRequest(HttpContext context)
     {
         if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase))
