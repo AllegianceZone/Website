@@ -1,13 +1,15 @@
 ﻿<!--<h2>This is home</h2>
 
 {{ message }}-->
-<div>
-    Players in Allegiance: {{playerCount()}}
+<div id="banner" >
+        <h5 style="position:absolute; color: darkgreen; margin-left:10px;">Players in Allegiance: {{playerCount()}}</h5>
+        <h5 ><img src="images/logo.gif" /></h5>
 </div>
 
 <table class="rwd-table">
     <thead>
         <tr>
+            <td></td>
             <td>InGame</td>
             <td>Mission</td>
             <td>Core</td>
@@ -20,6 +22,7 @@
         </tr>
     </thead>
     <tr ng-repeat="m in missions">
+        <td>PLAY</td>
         <td>{{m.fInProgress}}</td>
         <td>{{m.GameName}}</td>
         <td>{{m.IGCStaticFile}}</td>

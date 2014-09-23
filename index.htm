@@ -8,9 +8,14 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.css" rel="stylesheet" />
     <style>
+        body {
+            background-color: black;
+        }
         .rwd-table {
             margin: 1em 0;
             min-width: 300px;
+            margin-left:auto; 
+            margin-right:auto;
         }
         .rwd-table tr {
             border-top: 1px solid #ddd;
@@ -114,14 +119,12 @@
     </div>
     <!-- Mumble info -->
     <div class="container">
-        <div class="row" style="margin-top: 55px;">
-            <h5 class="col-md-8">Ventrilo Server - Address: lead.typefrag.com Port: 33508</h5>
-            <h5 class="col-md-4"><a href="http://www.ventrilo.com/download.php" target="_blank">Download Ventrilo Here</a></h5>
+        <div class="row" style="margin-top: 40px;">
+            <!--<h5 class="col-md-8">Ventrilo Server - Address: lead.typefrag.com Port: 33508</h5>
+            <h5 class="col-md-4"><a href="http://www.ventrilo.com/download.php" target="_blank">Download Ventrilo Here</a></h5>-->
         </div>
     </div>
-      <div id="banner" style="background:black;">
-        <img src="images/logo.gif" />
-    </div>
+      
     <div ng-view></div>
 
     <script src="scripts/angular.js"></script>
