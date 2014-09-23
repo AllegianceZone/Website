@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tr ng-repeat="m in missions">
-        <td><div class="button"><a href="azgame://join/{{m.dwCookie}}">launch</a></div></td>
+        <td><a href="allegiance://join/?id={{m.dwCookie}}&team=NOAT"><div class="button">launch</div></a></td>
         <td>{{m.fInProgress}}</td>
         <td>{{m.GameName}}</td>
         <td>{{m.IGCStaticFile}}</td>
