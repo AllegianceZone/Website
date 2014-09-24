@@ -115,20 +115,19 @@
             padding: 1em !important;
           }
         }
-        /*.rwd-table th, .rwd-table td:before {
-          color: #dd5;
-        }*/
-
-        /* Stars 
-        ------------------------------------- */
-
-
-        
+        .nav a, .nav:active, .nav:hover{
+            color: grey;
+            font-family: 'Orbitron', sans-serif; 
+        }
+        .navbar-brand {
+            color: white;
+            font-family: 'Orbitron', sans-serif; 
+        }
     </style>
 </head>
 <body ng-app="az">
     <!-- auto sizing menu bar for screen size from phone to desktop-->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -145,7 +144,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="http://installer.allegiancezone.com" style="color: white; font-weight: bold;">Download</a></li>
+                    <li><a href="http://installer.allegiancezone.com" style="color: orange; font-weight: bold;">Download</a></li>
                     <li><a href="http://forum.allegiancezone.com">Forum</a></li>
                     <!--<li><a href="#Leaderboard">Leaderboard</a></li>
                     <li><a href="#Rosters">Squad Rosters</a></li>
