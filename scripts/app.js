@@ -60,7 +60,7 @@ az.controller('ShowHomeController', function ($scope, $http) {
             });
     };
     refreshLobbyInfo();
-    setInterval(refreshLobbyInfo, 16000);
+    setInterval(refreshLobbyInfo, 32000);
 });
 
 
