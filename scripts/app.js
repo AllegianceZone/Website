@@ -1,5 +1,8 @@
 ﻿//Define an angular module for our app
 var az = angular.module('az', ['ngRoute']);
+az.config(['$compileProvider', function ($compileProvider) {
+    $compileProvider.aHrefSanitizationWhiteList(/^\s*(allegiance):/);
+}]);
 
 az.config(['$routeProvider',
   function ($routeProvider) {

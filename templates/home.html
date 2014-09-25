@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tr ng-repeat="m in missions">
-        <td><a href="allegiance://join/?id={{m.dwCookie}}&team=NOAT"><div class="button">launch</div></a></td>
+        <td><a href="allegiance://{{m.dwCookie}}"><div class="button">launch</div></a></td>
         <td>{{m.fInProgress}}</td>
         <td>{{m.GameName}}</td>
         <td>{{m.IGCStaticFile}}</td>
