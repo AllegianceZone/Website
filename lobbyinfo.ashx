@@ -16,7 +16,8 @@ public class Handler : IHttpHandler
     static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
     public void ProcessRequest(HttpContext context)
     {
-        if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase))
+        if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase)
+            && context.Request.UserHostAddress == "191.236.96.140") // only let the lobby post
         {
             try
             {
