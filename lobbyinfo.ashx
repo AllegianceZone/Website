@@ -17,7 +17,7 @@ public class Handler : IHttpHandler
     public void ProcessRequest(HttpContext context)
     {
         if (context.Request.HttpMethod.Equals("post", StringComparison.CurrentCultureIgnoreCase)
-            && context.Request.UserHostAddress == "191.236.120.30") // only let the lobby post
+            && context.Request.UserHostAddress == "191.236.106.84") // only let the lobby post
         {
             try
             {
