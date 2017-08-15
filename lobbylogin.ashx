@@ -10,9 +10,12 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using Npgsql;
+using System.Configuration;
+using Npgsql.PostgresTypes;
 public class Handler : IHttpHandler
 {
-    private readonly SortedList<string,bool> bots = new SortedList<string, bool> {
+    private readonly SortedList<string, bool> bots = new SortedList<string, bool> {
         {"sir_Ackley",true},
             {"sir_Adger",true},
             {"sir_Aislinn",true},
@@ -73,30 +76,22 @@ public class Handler : IHttpHandler
         try
         {
             var user = context.Request.Headers["HTTP_USER"];
-                
-            var pos = bots.IndexOfKey(user);
-            
-            var user_id = 7 * 11 * 23 * 29 * 31 + (pos * 37);
-            var user_username = user;
-            var user_password_hash = user_id / 23;
-            var user_salt = user_id / 11;
-            var user_active = "true";
-            var user_suspended_till = "";
 
-            if (
-                   //context.Request.UserAgent == "Allegiance"  && 
-                   pos > -1)
+            var discourseUser = GetDiscourseUser(user);
+            if (discourseUser != null)
             {
                 returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
-                    user_id,
-                    user_username,
-                    user_password_hash,
-                    user_salt,
-                    user_active,
-                    user_suspended_till);
+                    discourseUser.id,
+                    discourseUser.username,
+                    discourseUser.password_hash,
+                    discourseUser.salt,
+                    discourseUser.active,
+                    discourseUser.suspended_till == null ? "": discourseUser.suspended_till.ToString());
             }
-        } catch(Exception e)
+        }
+        catch (Exception e)
         {
+            returns = string.Format("NOPE\t\n{0}\n{1}", e.Message, e.StackTrace);
         }
 
         context.Response.ContentType = "text/plain";
@@ -112,4 +107,47 @@ public class Handler : IHttpHandler
             return true;
         }
     }
+
+    public UserData GetDiscourseUser(string username)
+    {
+        var connString = ConfigurationManager.ConnectionStrings["discourse"].ConnectionString;
+
+        using (var conn = new NpgsqlConnection(connString))
+        {
+
+            // Retrieve all rows
+            using (var cmd = new NpgsqlCommand("{select id, username, password_hash, salt, active, suspended_till from users where username = @username", conn))
+            {
+                cmd.Parameters.AddWithValue("@username", NpgsqlTypes.NpgsqlDbType.Text, username);
+                conn.Open();
+                cmd.Prepare();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var ud = new UserData();
+                        ud.id = reader.GetInt32(0);
+                        ud.username = reader.GetString(1);
+                        ud.password_hash = reader.GetString(2);
+                        ud.salt = reader.GetString(3);
+                        ud.active = reader.GetBoolean(4);
+                        ud.suspended_till = reader.GetDateTime(5);
+                        return ud;
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+}
+public class UserData
+{
+    public int id;
+    public string username;
+    public string password_hash;
+    public string salt;
+    public bool active;
+    public DateTime suspended_till;
 }
