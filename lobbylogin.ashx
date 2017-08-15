@@ -25,13 +25,15 @@ public class Handler : IHttpHandler
             var discourseUser = GetDiscourseUser(user);
             if (discourseUser != null)
             {
-                returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
+                returns = string.Format(
+                    "OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
                     discourseUser.id,
                     discourseUser.username,
                     discourseUser.password_hash,
                     discourseUser.salt,
                     discourseUser.active,
-                    discourseUser.suspended_till == null ? "": discourseUser.suspended_till.ToString());
+                    discourseUser.suspended_till.HasValue ? discourseUser.suspended_till.ToString() : ""
+                    );
             }
         }
         catch (Exception e)
@@ -77,7 +79,7 @@ public class Handler : IHttpHandler
                         ud.password_hash = reader.GetString(2);
                         ud.salt = reader.GetString(3);
                         ud.active = reader.GetBoolean(4);
-                        ud.suspended_till = reader.GetDateTime(5);
+                        ud.suspended_till = reader.IsDBNull(5) ? ((DateTime?) null) : reader.GetDateTime(5);
                         return ud;
                     }
                 }
@@ -94,5 +96,5 @@ public class UserData
     public string password_hash;
     public string salt;
     public bool active;
-    public DateTime suspended_till;
+    public DateTime? suspended_till;
 }
