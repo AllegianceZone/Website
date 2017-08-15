@@ -1,4 +1,4 @@
-<%@ WebHandler Language="C#" Class="Handler" %>
+﻿<%@ WebHandler Language="C#" Class="Handler" %>
 
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ public class Handler : IHttpHandler
         var returns = "";
         try
         {
-            var user = context.Request.Headers["HTTP_USER"];
+            var user = context.Request.Headers["USER"];
 
             var discourseUser = GetDiscourseUser(user);
             if (discourseUser != null)
