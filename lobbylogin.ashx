@@ -15,61 +15,6 @@ using System.Configuration;
 using Npgsql.PostgresTypes;
 public class Handler : IHttpHandler
 {
-    private readonly SortedList<string, bool> bots = new SortedList<string, bool> {
-        {"sir_Ackley",true},
-            {"sir_Adger",true},
-            {"sir_Aislinn",true},
-            {"sir_Alfer",true},
-            {"sir_Arantxa",true},
-            {"sir_Arundel",true},
-            {"sir_Athelstan",true},
-            {"sir_Awarnach",true},
-            {"sir_Beacher",true},
-            {"sir_Blythe",true},
-            {"sir_Brewster",true},
-            {"sir_Bromley",true},
-            {"sir_Cade",true},
-            {"sir_Calder",true},
-            {"sir_Cedric",true},
-            {"sir_Clemens",true},
-            {"sir_Demelza",true},
-            {"sir_Dorset",true},
-            {"sir_Dudley",true},
-            {"sir_Erskine",true},
-            {"sir_Farley",true},
-            {"sir_Farrah",true},
-            {"sir_Godefealouf",true},
-            {"sir_Goldman",true},
-            {"sir_Gray",true},
-            {"sir_Gundulfuleps",true},
-            {"sir_Hollace",true},
-            {"sir_Humphre",true},
-            {"sir_Isolda",true},
-            {"sir_Landon",true},
-            {"sir_Lidberaus",true},
-            {"sir_Llewellyn",true},
-            {"sir_Luella",true},
-            {"sir_Maida",true},
-            {"sir_Maranul",true},
-            {"sir_Marden",true},
-            {"sir_Nara",true},
-            {"sir_Radella",true},
-            {"sir_Ravinger",true},
-            {"sir_Reginald",true},
-            {"sir_Ripley",true},
-            {"sir_Rodbous",true},
-            {"sir_Rogerul",true},
-            {"sir_Siddel",true},
-            {"sir_Siluefter",true},
-            {"sir_Tostig",true},
-            {"sir_Tranter",true},
-            {"sir_Tyne",true},
-            {"sir_WiHimrexangtor",true},
-            {"sir_Winifred",true},
-            {"sir_Wyndam",true}
-        };
-
-    static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
     public void ProcessRequest(HttpContext context)
     {
         var returns = "";
