@@ -110,7 +110,7 @@ public class Handler : IHttpHandler
 
     public UserData GetDiscourseUser(string username)
     {
-        var connString = ConfigurationManager.ConnectionStrings["discourse"].ConnectionString;
+        var connString = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_discourse");
 
         using (var conn = new NpgsqlConnection(connString))
         {
