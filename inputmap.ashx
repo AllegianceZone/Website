@@ -9,11 +9,13 @@ public class Handler : IHttpHandler {
         using (var reader = new System.IO.StreamReader(context.Request.InputStream))
 	{
 		string data = reader.ReadToEnd();
+        var user = context.Request.Headers["HTTP_USER"];
 		if (data.Length > 36) {
-			//read in
+            var file = context.Request.Files[0];
+            file.SaveAs("inputmaps/" + user + ".7z");
+            context.Response.Write("OK");
 		} else {
-            
-			context.Response.WriteFile("inputmaps/test.7z");
+			context.Response.WriteFile("inputmaps/"+user+".7z");
 		}
 	}
     }
