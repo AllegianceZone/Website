@@ -54,10 +54,9 @@ public class Handler : IHttpHandler
     public UserData GetDiscourseUser(string username)
     {
         var connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-                    
+
         using (var conn = new NpgsqlConnection(connString))
         {
-
             // Retrieve all rows
             using (var cmd = new NpgsqlCommand("select id, username, password_hash, salt, active, suspended_till from users where username = @username", conn))
             {
@@ -79,6 +78,7 @@ public class Handler : IHttpHandler
                         return ud;
                     }
                 }
+                conn.Close();
             }
 
         }
