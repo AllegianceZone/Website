@@ -12,58 +12,58 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 public class Handler : IHttpHandler
 {
-    private readonly string[] bots = {
-            "sir_Ackley",
-            "sir_Adger",
-            "sir_Aislinn",
-            "sir_Alfer",
-            "sir_Arantxa",
-            "sir_Arundel",
-            "sir_Athelstan",
-            "sir_Awarnach",
-            "sir_Beacher",
-            "sir_Blythe",
-            "sir_Brewster",
-            "sir_Bromley",
-            "sir_Cade",
-            "sir_Calder",
-            "sir_Cedric",
-            "sir_Clemens",
-            "sir_Demelza",
-            "sir_Dorset",
-            "sir_Dudley",
-            "sir_Erskine",
-            "sir_Farley",
-            "sir_Farrah",
-            "sir_Godefealouf",
-            "sir_Goldman",
-            "sir_Gray",
-            "sir_Gundulfuleps",
-            "sir_Hollace",
-            "sir_Humphre",
-            "sir_Isolda",
-            "sir_Landon",
-            "sir_Lidberaus",
-            "sir_Llewellyn",
-            "sir_Luella",
-            "sir_Maida",
-            "sir_Maranul",
-            "sir_Marden",
-            "sir_Nara",
-            "sir_Radella",
-            "sir_Ravinger",
-            "sir_Reginald",
-            "sir_Ripley",
-            "sir_Rodbous",
-            "sir_Rogerul",
-            "sir_Siddel",
-            "sir_Siluefter",
-            "sir_Tostig",
-            "sir_Tranter",
-            "sir_Tyne",
-            "sir_WiHimrexangtor",
-            "sir_Winifred",
-            "sir_Wyndam"
+    private readonly SortedList<string,bool> bots = new SortedList<string, bool> {
+        {"sir_Ackley",true},
+            {"sir_Adger",true},
+            {"sir_Aislinn",true},
+            {"sir_Alfer",true},
+            {"sir_Arantxa",true},
+            {"sir_Arundel",true},
+            {"sir_Athelstan",true},
+            {"sir_Awarnach",true},
+            {"sir_Beacher",true},
+            {"sir_Blythe",true},
+            {"sir_Brewster",true},
+            {"sir_Bromley",true},
+            {"sir_Cade",true},
+            {"sir_Calder",true},
+            {"sir_Cedric",true},
+            {"sir_Clemens",true},
+            {"sir_Demelza",true},
+            {"sir_Dorset",true},
+            {"sir_Dudley",true},
+            {"sir_Erskine",true},
+            {"sir_Farley",true},
+            {"sir_Farrah",true},
+            {"sir_Godefealouf",true},
+            {"sir_Goldman",true},
+            {"sir_Gray",true},
+            {"sir_Gundulfuleps",true},
+            {"sir_Hollace",true},
+            {"sir_Humphre",true},
+            {"sir_Isolda",true},
+            {"sir_Landon",true},
+            {"sir_Lidberaus",true},
+            {"sir_Llewellyn",true},
+            {"sir_Luella",true},
+            {"sir_Maida",true},
+            {"sir_Maranul",true},
+            {"sir_Marden",true},
+            {"sir_Nara",true},
+            {"sir_Radella",true},
+            {"sir_Ravinger",true},
+            {"sir_Reginald",true},
+            {"sir_Ripley",true},
+            {"sir_Rodbous",true},
+            {"sir_Rogerul",true},
+            {"sir_Siddel",true},
+            {"sir_Siluefter",true},
+            {"sir_Tostig",true},
+            {"sir_Tranter",true},
+            {"sir_Tyne",true},
+            {"sir_WiHimrexangtor",true},
+            {"sir_Winifred",true},
+            {"sir_Wyndam",true}
         };
 
     static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
@@ -73,14 +73,9 @@ public class Handler : IHttpHandler
         try
         {
             var user = context.Request.Headers["HTTP_USER"];
-            var pos = -1;
-            for (int i = 0; i < bots.Length; i++)
-            {
-                if(bots[i] == user)
-                {
-                    pos = i;
-                }
-            }
+                
+            var pos = bots.IndexOfKey(user);
+            
             var user_id = 7 * 11 * 23 * 29 * 31 + (pos * 37);
             var user_username = user;
             var user_password_hash = user_id / 23;
@@ -89,7 +84,7 @@ public class Handler : IHttpHandler
             var user_suspended_till = "";
 
             if (
-                    //context.Request.UserAgent == "Allegiance"  && 
+                   //context.Request.UserAgent == "Allegiance"  && 
                    pos > -1)
             {
                 returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
