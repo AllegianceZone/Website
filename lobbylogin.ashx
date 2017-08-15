@@ -69,20 +69,39 @@ public class Handler : IHttpHandler
     static List<AllegNetLib.FMD_LS_LobbyMissionInfo> _latest = new List<AllegNetLib.FMD_LS_LobbyMissionInfo>();
     public void ProcessRequest(HttpContext context)
     {
-        var returns = "1";
+        var returns = "";
         try
         {
-            if (context.Request.UserAgent == "Allegiance")
+            var user = context.Request.Headers["HTTP_USER"];
+            var pos = -1;
+            for (int i = 0; i < bots.Length; i++)
             {
-                var user = context.Request.Headers["HTTP_USER"];
-                if (bots.Contains(user))
+                if(bots[i] == user)
                 {
-                    returns = "0";
+                    pos = i;
                 }
+            }
+            var user_id = 7 * 11 * 23 + pos;
+            var user_username = user;
+            var user_password_hash = user_id / 23;
+            var user_salt = user_id / 11;
+            var user_active = "true";
+            var user_suspended_till = "";
+
+            if (
+                    //context.Request.UserAgent == "Allegiance"  && 
+                   pos > -1)
+            {
+                returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
+                    user_id,
+                    user_username,
+                    user_password_hash,
+                    user_salt,
+                    user_active,
+                    user_suspended_till);
             }
         } catch(Exception e)
         {
-            returns += "\n" + e.Message;
         }
 
         context.Response.ContentType = "text/plain";
