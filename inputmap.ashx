@@ -16,7 +16,6 @@ public class Handler : IHttpHandler {
             {
                 var file = context.Request.Files[0];
                 file.SaveAs("inputmaps/" + user + ".7z");
-                context.Response.ContentType = "text/plain";
                 context.Response.Write("OK");
             }
             else
@@ -26,6 +25,7 @@ public class Handler : IHttpHandler {
         }
         catch (Exception e)
         {
+           context.Response.ContentType = "text/plain";
            context.Response.Write(string.Format("NOPE\t\n{0}\n{1}", e.Message, e.StackTrace));
         }
 	}
