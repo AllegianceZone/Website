@@ -54,7 +54,7 @@ public class Handler : IHttpHandler
     public UserData GetDiscourseUser(string username)
     {
         var connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-
+        UserData ud = null;
         using (var conn = new NpgsqlConnection(connString))
         {
             // Retrieve all rows
@@ -62,27 +62,25 @@ public class Handler : IHttpHandler
             {
                 cmd.Parameters.AddWithValue("@username", NpgsqlTypes.NpgsqlDbType.Text, username);
                 conn.Open();
-                cmd.Prepare();
+                //cmd.Prepare();
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.Read())
                     {
-                        var ud = new UserData();
+                        ud = new UserData();
                         ud.id = reader.GetInt32(0);
                         ud.username = reader.GetString(1);
                         ud.password_hash = reader.GetString(2);
                         ud.salt = reader.GetString(3);
                         ud.active = reader.GetBoolean(4);
                         ud.suspended_till = reader.IsDBNull(5) ? ((DateTime?) null) : reader.GetDateTime(5);
-                        return ud;
                     }
                 }
                 conn.Close();
             }
-
         }
-        return null;
+        return ud;
     }
 }
 public class UserData
