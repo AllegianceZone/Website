@@ -6,8 +6,15 @@ using System.Web;
 public class Handler : IHttpHandler {
 
     public void ProcessRequest (HttpContext context) {
-         context.Response.ContentType = "text/plain";
-         context.Response.Write("Hello this is Imago's first C# handler");
+	using (var reader = new StreamReader(context.Request.InputStream))
+	{
+		string data = reader.ReadToEnd();
+		if (data) {
+			//read in
+		} else {
+			context.Response.WriteFile("inputmaps/test.7z");
+		}
+	}
     }
 
     public bool IsReusable {
