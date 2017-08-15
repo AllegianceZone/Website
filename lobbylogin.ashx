@@ -81,7 +81,7 @@ public class Handler : IHttpHandler
                     pos = i;
                 }
             }
-            var user_id = 7 * 11 * 23 + pos;
+            var user_id = 7 * 11 * 23 * 29 * 31 + (pos * 37);
             var user_username = user;
             var user_password_hash = user_id / 23;
             var user_salt = user_id / 11;
