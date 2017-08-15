@@ -56,12 +56,12 @@ public class Handler : IHttpHandler
     public UserData GetDiscourseUser(string username)
     {
         var connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-                    //ConfigurationManager.ConnectionStrings["discourse"].ConnectionString;
+                    
         using (var conn = new NpgsqlConnection(connString))
         {
 
             // Retrieve all rows
-            using (var cmd = new NpgsqlCommand("{select id, username, password_hash, salt, active, suspended_till from users where username = @username", conn))
+            using (var cmd = new NpgsqlCommand("select id, username, password_hash, salt, active, suspended_till from users where username = @username", conn))
             {
                 cmd.Parameters.AddWithValue("@username", NpgsqlTypes.NpgsqlDbType.Text, username);
                 conn.Open();
