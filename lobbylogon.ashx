@@ -47,7 +47,7 @@ public class Handler : IHttpHandler
     {
         get
         {
-            return true;
+            return false;
         }
     }
 
