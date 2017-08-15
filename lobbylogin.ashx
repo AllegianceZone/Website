@@ -1,4 +1,4 @@
-<%@ WebHandler Language="C#" Class="Handler" %>
+﻿<%@ WebHandler Language="C#" Class="Handler" %>
 
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ public class Handler : IHttpHandler
 
         //context.Response.ContentType = "text/plain";
         var bytes = System.Text.Encoding.ASCII.GetBytes(returns);
-        context.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(15));
+        //context.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(15));
         context.Response.BinaryWrite(bytes);
     }
 
