@@ -9,9 +9,10 @@ public class Handler : IHttpHandler {
         using (var reader = new System.IO.StreamReader(context.Request.InputStream))
 	{
 		string data = reader.ReadToEnd();
-		if (data.Length < 36) {
+		if (data.Length > 36) {
 			//read in
 		} else {
+            
 			context.Response.WriteFile("inputmaps/test.7z");
 		}
 	}
