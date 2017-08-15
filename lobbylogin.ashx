@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="Handler" %>
+<%@ WebHandler Language="C#" Class="Handler" %>
 
 using System;
 using System.Collections.Generic;
@@ -40,11 +40,7 @@ public class Handler : IHttpHandler
         {
             returns = string.Format("NOPE\t\n{0}\n{1}", e.Message, e.StackTrace);
         }
-
-        //context.Response.ContentType = "text/plain";
-        var bytes = System.Text.Encoding.ASCII.GetBytes(returns);
-        //context.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(15));
-        context.Response.BinaryWrite(bytes);
+        context.Response.Write(returns);
     }
 
     public bool IsReusable
