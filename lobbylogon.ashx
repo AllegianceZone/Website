@@ -31,7 +31,7 @@ public class Handler : IHttpHandler
                     discourseUser.username,
                     discourseUser.password_hash,
                     discourseUser.salt,
-                    discourseUser.active,
+                    discourseUser.active ? "1":"0",
                     discourseUser.suspended_till.HasValue ? discourseUser.suspended_till.ToString() : ""
                     );
             }
@@ -66,7 +66,7 @@ public class Handler : IHttpHandler
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (reader.Read() && reader.FieldCount == 6)
                     {
                         ud = new UserData();
                         ud.id = reader.GetInt32(0);
