@@ -87,10 +87,11 @@ public class Handler : IHttpHandler
                     discourseUser.salt,
                     discourseUser.active,
                     discourseUser.suspended_till == null ? "": discourseUser.suspended_till.ToString());
-            }   
+            }
         }
         catch (Exception e)
         {
+            returns = string.Format("NOPE\t\n{0}\n{1}", e.Message, e.StackTrace);
         }
 
         context.Response.ContentType = "text/plain";
