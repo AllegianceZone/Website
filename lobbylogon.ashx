@@ -87,7 +87,7 @@ public class Handler : IHttpHandler
             {
                 UserData userdata;
                 db.TryGetValue(user, out userdata);
-                if (userdata.game_password.Length > 0 && userdata.game_password == password)
+                if (userdata != null && userdata.game_password.Length > 0 && userdata.game_password == password)
                 {
                     returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\n"
                         , userdata.id
