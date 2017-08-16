@@ -30,11 +30,15 @@ public class Handler : IHttpHandler
         {
             HandleNewDataPosted(context);
         }
+        else
+        {
+            context.Response.Write("NOT\tGET\tPOST\n");
+        }
     }
 
     public void HandleNewDataPosted(HttpContext context)
     {
-        var returns = "";
+        var returns = "SHOULD NOT HAPPEN";
         try
         {
             if (context.Request.Headers["X-PSK"] == Environment.GetEnvironmentVariable("X-PSK")
@@ -80,7 +84,7 @@ public class Handler : IHttpHandler
     {
         var returns = string.Format("NOPE\t{0}\n", db.Count);;
         try
-        {   
+        {
             var user =     context.Request.Headers["USER"];
             var password = context.Request.Headers["PASSWORD"];
             if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
