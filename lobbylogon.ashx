@@ -51,8 +51,8 @@ public class Handler : IHttpHandler
                 }
 
                 // parse the table.
-                var users = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Skip(2)
-                        .Where(x => !string.IsNullOrEmpty(x) && !x.StartsWith("("))
+                var users = content.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries).Skip(2)
+                        .Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith("("))
                         .Select(x =>
                         {
                             var cells = x.Split('|').Select(y => y.Trim()).ToArray();
