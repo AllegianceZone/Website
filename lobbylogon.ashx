@@ -70,7 +70,15 @@ public class Handler : IHttpHandler
                     db.AddOrUpdate(user.username, user, (username, old) => user);
                 }
 
-                returns = "Nice\n" + db.Count + "\n";
+                if(users.Count() == 0)
+                {
+                    returns = "NOPE\n" + content +"\n";
+                }else
+                {
+                    returns = "Nice\n" + db.Count() + "\t"+ users.Count() +"\n";
+                }
+
+               
             }
         }
         catch (Exception e)
