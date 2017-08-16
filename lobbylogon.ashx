@@ -115,8 +115,8 @@ public class Handler : IHttpHandler
 public class UserData
 {
     public int id;
-    public string username;
+    public string username = "";
     public bool active;
-    public string game_password;
+    public string game_password = "";
     public DateTime? suspended_till;
 }
