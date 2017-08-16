@@ -13,27 +13,88 @@ using Newtonsoft.Json.Linq;
 using Npgsql;
 using System.Configuration;
 using Npgsql.PostgresTypes;
+
+using System.Collections.Concurrent;
 public class Handler : IHttpHandler
 {
+
+    static ConcurrentDictionary<string,UserData> db = new ConcurrentDictionary<string,UserData>();
+
     public void ProcessRequest(HttpContext context)
+    {
+        if (context.Request.HttpMethod == "GET")
+        {
+            HandleLogonRequest(context);
+        }
+        else if (context.Request.HttpMethod == "POST")
+        {
+            HandleNewDataPosted(context);
+        }
+    }
+
+    public void HandleNewDataPosted(HttpContext context)
     {
         var returns = "";
         try
         {
-            var user = context.Request.Headers["USER"];
-
-            var discourseUser = GetDiscourseUser(user);
-            if (discourseUser != null)
+            if (context.Request.Headers["X-PSK"] == Environment.GetEnvironmentVariable("X-PSK")
+                && context.Request.Headers["X-TYPE"] == "psql")
             {
-                returns = string.Format(
-                    "OK\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n",
-                    discourseUser.id,
-                    discourseUser.username,
-                    discourseUser.password_hash,
-                    discourseUser.salt,
-                    discourseUser.active ? "1":"0",
-                    discourseUser.suspended_till.HasValue ? discourseUser.suspended_till.ToString() : ""
-                    );
+                var content = "";
+                using (var reader = new System.IO.StreamReader(context.Request.InputStream))
+                {
+                    content = reader.ReadToEnd();
+                }
+
+                // parse the table.
+                var users = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Skip(2)
+                        .Where(x => !string.IsNullOrEmpty(x) && !x.StartsWith("("))
+                        .Select(x =>
+                        {
+                            var cells = x.Split('|').Select(y => y.Trim()).ToArray();
+                            var user = new UserData();
+                            user.id = Convert.ToInt32(cells[0]);
+                            user.username = cells[1];
+                            user.active = cells[2].Contains('t');
+                            user.game_password = cells[3];
+                            user.suspended_till = cells[4].Length > 0 ? Convert.ToDateTime(cells[4]) : (DateTime?)null;
+                            return user;
+                        });
+
+                foreach (var user in users)
+                {
+                    db.AddOrUpdate(user.username, user, (username, old) => user);
+                }
+
+                returns = "Nice\n" + db.Count + "\n";
+            }
+        }
+        catch (Exception e)
+        {
+            returns = string.Format("NOPE\t\n{0}\n{1}", e.Message, e.StackTrace);
+        }
+        context.Response.Write(returns);
+    }
+
+    public void HandleLogonRequest(HttpContext context)
+    {
+        var returns = string.Format("NOPE\t{0}\n", db.Count);;
+        try
+        {   
+            var user =     context.Request.Headers["USER"];
+            var password = context.Request.Headers["PASSWORD"];
+            if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(password))
+            {
+                UserData userdata;
+                db.TryGetValue(user, out userdata);
+                if (userdata.game_password.Length > 0 && userdata.game_password == password)
+                {
+                    returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\n"
+                        , userdata.id
+                        , userdata.username
+                        , userdata.active
+                        , userdata.suspended_till.HasValue ? userdata.suspended_till.Value.ToString() : "");
+                }
             }
         }
         catch (Exception e)
@@ -47,48 +108,15 @@ public class Handler : IHttpHandler
     {
         get
         {
-            return false;
+            return true;
         }
-    }
-
-    public UserData GetDiscourseUser(string username)
-    {
-        var connString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-        UserData ud = null;
-        using (var conn = new NpgsqlConnection(connString))
-        {
-            // Retrieve all rows
-            using (var cmd = new NpgsqlCommand("select id, username, password_hash, salt, active, suspended_till from users where username = @username", conn))
-            {
-                cmd.Parameters.AddWithValue("@username", NpgsqlTypes.NpgsqlDbType.Text, username);
-                conn.Open();
-                //cmd.Prepare();
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read() && reader.FieldCount == 6)
-                    {
-                        ud = new UserData();
-                        ud.id = reader.GetInt32(0);
-                        ud.username = reader.GetString(1);
-                        ud.password_hash = reader.GetString(2);
-                        ud.salt = reader.GetString(3);
-                        ud.active = reader.GetBoolean(4);
-                        ud.suspended_till = reader.IsDBNull(5) ? ((DateTime?) null) : reader.GetDateTime(5);
-                    }
-                }
-                conn.Close();
-            }
-        }
-        return ud;
     }
 }
 public class UserData
 {
     public int id;
     public string username;
-    public string password_hash;
-    public string salt;
     public bool active;
+    public string game_password;
     public DateTime? suspended_till;
 }
