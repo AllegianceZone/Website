@@ -104,7 +104,7 @@ public class Handler : IHttpHandler
                     returns = string.Format("OK\t{0}\t{1}\t{2}\t{3}\n"
                         , userdata.id
                         , userdata.username
-                        , userdata.active
+                        , userdata.active ? "1" : "0"
                         , userdata.suspended_till.HasValue ? userdata.suspended_till.Value.ToString() : "");
                 }
             }
